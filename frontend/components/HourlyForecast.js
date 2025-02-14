@@ -9,45 +9,42 @@ import {
 } from 'react-native';
 import { getTemperatureColor } from '../components/utils';
 
-const DailyForecast = ({ forecast }) => {
+const HourlyForecast = ({ hourlyForecast }) => {
   const colorScheme = useColorScheme();
 
-  const renderItem = ({ item }) => (
-    <View style={styles.forecastItem}>
-      <Text style={styles.forecastDate}>{item.date}</Text>
+  const renderHourlyItem = ({ item }) => (
+    <View style={styles.hourlyItem}>
+      <Text style={styles.hourlyTime}>{new Date(item.time).getHours()}:00</Text>
       <Image
         source={{
-          uri: `https:${item.day.condition.icon.replace('64x64', '128x128')}`,
+          uri: `https:${item.condition.icon.replace('64x64', '128x128')}`,
         }}
         style={{ width: 50, height: 50 }}
       />
       <Text
-        style={[
-          styles.forecastTemp,
-          { color: getTemperatureColor(item.day.avgtemp_c) },
-        ]}
+        style={[styles.hourlyTemp, { color: getTemperatureColor(item.temp_c) }]}
       >
-        {item.day.avgtemp_c}°C
+        {item.temp_c}°C
       </Text>
-      <Text style={styles.forecastCondition}>{item.day.condition.text}</Text>
+      <Text style={styles.hourlyCondition}>{item.condition.text}</Text>
     </View>
   );
 
   return (
-    <View style={styles.forecastContainer}>
+    <View style={styles.hourlyForecastContainer}>
       <Text
         style={[
           styles.forecastTitle,
           { color: colorScheme === 'dark' ? '#fff' : '#000' },
         ]}
       >
-        Prévisions météorologiques
+        Météo horaire
       </Text>
       <FlatList
         horizontal
-        data={forecast}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.date}
+        data={hourlyForecast}
+        renderItem={renderHourlyItem}
+        keyExtractor={(item) => item.time}
         showsHorizontalScrollIndicator={false}
       />
     </View>
@@ -55,7 +52,7 @@ const DailyForecast = ({ forecast }) => {
 };
 
 const styles = StyleSheet.create({
-  forecastContainer: {
+  hourlyForecastContainer: {
     marginTop: 10,
   },
   forecastTitle: {
@@ -63,23 +60,23 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 12,
   },
-  forecastItem: {
+  hourlyItem: {
     alignItems: 'center',
     marginRight: 16,
   },
-  forecastDate: {
+  hourlyTime: {
     fontSize: 16,
     fontWeight: 'bold',
     color: '#555',
   },
-  forecastTemp: {
+  hourlyTemp: {
     fontSize: 18,
     color: '#FF4500',
   },
-  forecastCondition: {
+  hourlyCondition: {
     fontSize: 16,
     color: '#555',
   },
 });
 
-export default DailyForecast;
+export default HourlyForecast;
