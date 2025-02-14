@@ -12,6 +12,8 @@ import {
   Provider as PaperProvider,
 } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import FavoritesScreen from './screens/FavoritesScreen';
+import HomeScreen from './screens/HomeScreen';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 
@@ -30,11 +32,13 @@ function App() {
       <PaperProvider theme={paperTheme}>
         <NavigationContainer theme={navigationTheme}>
           <Stack.Navigator
-            initialRouteName='Login'
+            initialRouteName='Home'
             screenOptions={{ headerShown: false }}
           >
             <Stack.Screen name='Login' component={LoginScreen} />
             <Stack.Screen name='Register' component={RegisterScreen} />
+            <Stack.Screen name='Home' component={HomeScreen} />
+            <Stack.Screen name='Favorites' component={FavoritesScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </PaperProvider>
